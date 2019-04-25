@@ -17,7 +17,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Keggermont\\LaraVueBuilder\\LaraVueBuilderServiceProvider"
+                "\\Keggermont\\LaraVueBuilder\\LaraVueBuilderServiceProvider"
             ],
             "aliases": {
 
