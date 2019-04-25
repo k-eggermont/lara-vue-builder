@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Forms;
+
+use \Keggermont\LaraVueBuilder\App\Forms\Form;
+use {{ENTITY_PATH}};
+
+class {{NAME_FORM}} extends Form {
+
+    static $class = {{ENTITY_CLASS}}::class;
+    private $entity = null;
+    static $with = [];
+
+
+    public function fields() {
+
+        /*
+        Here you can add your fields.
+        */
+        return [
+
+        ];
+
+    }
+
+    public function executeBeforeProcessing($model, $fieldsNotUpdated) {
+        /**
+         * You can update this method for adding custom processing before insert/update
+         */
+        return $model;
+    }
+
+
+}
