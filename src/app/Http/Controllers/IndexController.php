@@ -3,6 +3,11 @@ namespace Keggermont\LaraVueBuilder\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Keggermont\LaraVueBuilder\App\Events\LaraVueFormCreated;
+use Keggermont\LaraVueBuilder\App\Events\LaraVueFormCreating;
+use Keggermont\LaraVueBuilder\App\Events\LaraVueFormDeleted;
+use Keggermont\LaraVueBuilder\App\Events\LaraVueFormDeleting;
+use Keggermont\LaraVueBuilder\App\Events\LaraVueFormUpdating;
 
 class IndexController extends FormController {
 
@@ -24,7 +29,10 @@ class IndexController extends FormController {
     public function delete() {
         $this->authorize('delete', $this->resource);
         if($this->resource) {
+
+            event(new LaraVueFormDeleting($this->form, $this->resource));
             $this->resource->delete();
+            event(new LaraVueFormDeleted($this->form, $this->resource));
             return ["success" => true];
         }
         abort(404, "404 Not found");
@@ -38,7 +46,9 @@ class IndexController extends FormController {
         list($model, $fieldsNotUpdated) = $this->createModel($this->resource, $request);
 
         $model = $this->form->executeBeforeProcessing($model,$fieldsNotUpdated);
+        event(new \Keggermont\LaraVueBuilder\App\Events\LaraVueFormCreating($this->form, $this->resource));
         $model->save();
+        event(new LaraVueFormCreated($this->form, $this->resource));
 
         return ["success" => true, "model" => $model];
     }
@@ -54,7 +64,9 @@ class IndexController extends FormController {
         list($model, $fieldsNotUpdated) = $this->updateModel($this->resource, $request);
 
         $model = $this->form->executeBeforeProcessing($model,$fieldsNotUpdated);
+        event(new LaraVueFormUpdating($this->form, $this->resource));
         $model->save();
+        event(new LaraVueFormUpdated($this->form, $this->resource));
 
         return ["success" => true, "model" => $model];
     }

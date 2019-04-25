@@ -4,9 +4,19 @@ namespace Keggermont\LaraVueBuilder;
 
 use Illuminate\Support\ServiceProvider;
 use Keggermont\LaraVueBuilder\App\Commands\MakeFormCommand;
+use Keggermont\LaraVueBuilder\App\Events\LaraVueFormCreating;
 
 class LaraVueBuilderServiceProvider extends ServiceProvider
 {
+
+    protected $listen = [
+        App\Events\LaraVueFormCreating::class,
+        App\Events\LaraVueFormCreated::class,
+        App\Events\LaraVueFormUpdating::class,
+        App\Events\LaraVueFormUpdated::class,
+        App\Events\LaraVueFormDeleting::class,
+        App\Events\LaraVueFormDeleted::class,
+    ];
     /**
      * Register services.
      *
