@@ -110,6 +110,11 @@ Tailwindcss was required for use this style. If tailwind was installed and confi
 More informations about installation and configuration of tailwindcss: https://tailwindcss.com/docs/installation/
 
 
+### Render assets
+```bash
+npm i && npm run watch
+```
+
 ## Usage
 
 ### Generator
@@ -134,7 +139,7 @@ Now you can open the file app/Forms/BookForm.php
         return [
             
             // Declare the input "title"
-            (new \Keggermont\LaraVueBuilder\App\Fields\InputField("title"))->nullable(false)
+            (new \Keggermont\LaraVueBuilder\App\Fields\InputField("title"))->nullable()
             
         ];
 
@@ -183,6 +188,9 @@ You can customize the form and the text with slot. Check the source code of the 
 ### Authorization
 You can setup custom authorization with the policy. 
 You are able to configure a custom policy closure with the method ->can() (on a field).
+
+#### Make action possible with guest users
+For let non authenticated user use the form, in the policy you have to put (?User $user) instead of (User $user)
 
 ### Custom processing
 For custom processing (before updating or creating), you can use the method executeBeforeProcessing in the Form model.
