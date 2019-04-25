@@ -20,7 +20,7 @@ It's inspired by *Laravel Nova*, but more lighter, customizable and for front & 
 ### Install package
 Install the composer package :
 ```bash
-composer require keggermont/laravuebuilder
+composer require k-eggermont/lara-vue-builder
 ```
 
 
