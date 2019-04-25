@@ -161,17 +161,18 @@ You can explore the file Keggermont\LaraVueBuilder\App\Fields\Field.php for more
 ### Routes
 The form model give you some new api routes.
 
-POST /api/forms/{nameOfForm} => Create a new resource
-POST /api/forms/{nameOfForm}/{resourceId} => Update a resource
-DELETE /api/forms/{nameOfForm}/{resourceId} => Delete
-GET /api/forms/{nameOfForm}/{resourceId} => Get data of a resource @todo
-GET /api/forms/{nameOfForm} => Get data of all resources @todo
-@todo => 
+- POST /api/forms/{nameOfForm} => Create a new resource
+- POST /api/forms/{nameOfForm}/{resourceId} => Update a resource
+- DELETE /api/forms/{nameOfForm}/{resourceId} => Delete
+- GET /api/forms/{nameOfForm}/{resourceId} => Get data of a resource @todo
+- GET /api/forms/{nameOfForm} => Get data of all resources @todo
+
+
 
 ### Display the form 
 On the view, you need to do for the create form :
 ```html
-<form-field resource="Book" :reset-on-submit="true">
+<form-field resource="Book" :resource-id="null" :reset-on-submit="true">
     <div slot="submit-text">Create</div>
 </form-field>
 ```
