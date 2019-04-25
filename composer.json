@@ -1,23 +1,42 @@
 {
     "name": "k-eggermont/lara-vue-builder",
     "description": "API and Vue Form Builder for Laravel 5.8+",
+    "keywords": [
+        "vue2",
+        "laravel",
+        "form",
+        "api",
+        "eggermont",
+        "kevin eggermont"
+    ],
+    "homepage": "https://github.com/k-eggermont/lara-vue-builder",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kévin EGGERMONT",
+            "email": "kevin.eggermont@gmail.com",
+            "homepage": "https://www.smart-services.com",
+            "role": "Developer"
+        }
+    ],
     "type": "library",
     "require": {
         "php": "^7.1.3",
         "laravel/framework": "5.8.*"
     },
-    "authors": [
-        {
-            "name": "Kévin EGGERMONT",
-            "email": "kevin.eggermont@gmail.com"
-        }
-    ],
+
     "minimum-stability": "dev",
+
+    "autoload": {
+        "psr-4": {
+            "Keggermont\\LaraVueBuilder\\": "src"
+        }
+    },
 
     "extra": {
         "laravel": {
             "providers": [
-                "\\Keggermont\\LaraVueBuilder\\LaraVueBuilderServiceProvider"
+                "Keggermont\\LaraVueBuilder\\LaraVueBuilderServiceProvider"
             ],
             "aliases": {
 
