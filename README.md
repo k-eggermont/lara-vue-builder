@@ -1,3 +1,5 @@
+!!!!!!! DON'T USE THIS PACKAGE IN PRODUCTION -- THE PACKAGE IS UNDER DEVELOPEMENT !!!!!!!
+
 # LaraVueBuilder
 
 LaraVueBuilder is a package for Laravel 5.8 for generating forms from laravel, and easy get a VueJS2 dynamic form with validation, policies, events ...
