@@ -5,8 +5,10 @@
         <label :for="field.field+'_form_'+resource">
             {{ field.name }}
         </label>
-
-        <input type="text" :id="field.field+'_form_'+resource" :name="field.field" :placeholder="field.placeholder" :value="$parent.form[field.field]" @input="updateField($event.target.value)" >
+        <textarea type="text" :id="field.field+'_form_'+resource" :name="field.field" :value="$parent.form[field.field]" :placeholder="field.placeholder" @input="updateField($event.target.value)"
+        class="w-full"
+        >
+        </textarea>
         <div class="form-error" v-if="error.length > 0">
             {{ error[0] }}
         </div>

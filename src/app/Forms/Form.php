@@ -6,6 +6,7 @@ abstract class Form {
 
     private $entity = null;
     static $with = [];
+    static $actions = ["create","update","delete","index","view"];
 
     public function __construct($entity = null)
     {
@@ -47,11 +48,11 @@ abstract class Form {
 
         //$request->validate(["Test1"=> array("required","string","min:3")]);
         foreach($this->getFieldsData() as $field) {
-            $tmp = [];
+            $tmp = []; 
             if($field->nullable == true) { $tmp[] = "nullable"; } else { $tmp[] = "required"; }
             $tmp[] = $field->validationType;
-            if($field->min) { $tmp[] = "min:".$field->min; }
-            if($field->max) { $tmp[] = "max:".$field->max; }
+            if($field->min > 0) { $tmp[] = "min:".$field->min; }
+            if($field->max > 0) { $tmp[] = "max:".$field->max; }
             if(is_array($field->options) && sizeof($field->options)>0) { $tmp[] = "in:".implode(",",array_keys($field->options)); }
 
             $return[$field->field] = $tmp;

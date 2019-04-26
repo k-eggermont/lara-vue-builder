@@ -1,16 +1,18 @@
 import VueSweetalert2 from 'vue-sweetalert2';
 Vue.use(VueSweetalert2);
 
-Vue.component('InputField', require('./components/Fields/Tailwind/InputField.vue').default);
-Vue.component('SelectField', require('./components/Fields/Tailwind/SelectField.vue').default);
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('example-component2', require('./components/ExampleComponent2.vue').default);
-Vue.component('loader', require('./components/Loader.vue').default);
-Vue.component('progressButton', require('./components/ProgressButton').default);
+Vue.component('InputField', require('./vendor/laravuebuilder/components/Fields/Tailwind/InputField.vue').default);
+Vue.component('SelectField', require('./vendor/laravuebuilder/components/Fields/Tailwind/SelectField.vue').default);
+Vue.component('TextareaField', require('./vendor/laravuebuilder/components/Fields/Tailwind/TextareaField.vue').default);
+Vue.component('NumberField', require('./vendor/laravuebuilder/components/Fields/Tailwind/NumberField.vue').default);
+Vue.component('CheckboxField', require('./vendor/laravuebuilder/components/Fields/Tailwind/CheckboxField.vue').default);
 
-Vue.component('FormField', require('./components/FormField.vue').default);
-Vue.component('ResourcesIndex', require('./components/Resources/Index.vue').default);
-Vue.component('DeleteLink', require('./components/DeleteLink.vue').default);
+Vue.component('loader', require('./vendor/laravuebuilder/components/Loader.vue').default);
+Vue.component('progressButton', require('./vendor/laravuebuilder/components/ProgressButton').default);
+
+Vue.component('FormField', require('./vendor/laravuebuilder/components/FormField.vue').default);
+Vue.component('ResourcesIndex', require('./vendor/laravuebuilder/components/Resources/Index.vue').default);
+Vue.component('DeleteLink', require('./vendor/laravuebuilder/components/DeleteLink.vue').default);
 
 window.vueFormMessages = {
 

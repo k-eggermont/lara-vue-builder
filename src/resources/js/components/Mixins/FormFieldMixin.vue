@@ -141,7 +141,7 @@
                     var tmpFields = {};
                     for(var i in data.data) {
                         this.fields.push(data.data[i])
-                        tmpFields[data.data[i].name] = data.data[i].value;
+                        tmpFields[data.data[i].field] = data.data[i].value;
                     }
                     this.form = new Form(tmpFields,
                         {

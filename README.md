@@ -140,7 +140,7 @@ Now you can open the file app/Forms/BookForm.php
         return [
             
             // Declare the input "title"
-            (new \Keggermont\LaraVueBuilder\App\Fields\InputField("title"))->nullable()
+            (new \Keggermont\LaraVueBuilder\App\Fields\InputField("title"))->nullable(),
             
         ];
 

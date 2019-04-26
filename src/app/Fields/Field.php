@@ -10,7 +10,7 @@ class Field {
     public $vueComponent = "InputField";
     public $field;
     public $name;
-    public $nullable = true;
+    public $nullable = false;
     public $displayOn = ["index","creating","updating"];
     public $min = null;
     public $max = null;
@@ -20,6 +20,7 @@ class Field {
     public $callbackBeforeStore = false;
     public $metas = [];
     public $options = [];
+    public $placeholder = "";
 
     //field vueComponent name nullable value
 
@@ -36,6 +37,12 @@ class Field {
         $this->displayOn = ["index"];
         return $this;
     }
+
+    public function setPlaceholder($placeholder) {
+        $this->placeholder = $placeholder;
+        return $this;
+    }
+
     public function onlyOnForms() {
         $this->displayOn = ["updating","creating"];
         return $this;
@@ -62,11 +69,11 @@ class Field {
     }
 
     public function min($val = null) {
-        if(intval($val) > 0) { $this->min = $val; }
+        if(intval($val) > 0) { $this->min = intval($val); }
         return $this;
     }
     public function max($val = null) {
-        if(intval($val) > 0) { $this->max = $val; }
+        if(intval($val) > 0) { $this->max = intval($val); }
         return $this;
     }
 
@@ -87,7 +94,8 @@ class Field {
 
 
     public function nullable($val = true) {
-        if($val != true) $this->nullable = false;
+        if($val != true) { $this->nullable = false; }
+        else { $this->nullable = true; }
         return $this;
     }
 
@@ -119,6 +127,10 @@ class Field {
 
 
     public function options($opt) {
+        if($opt instanceof Closure) {
+            $this->options = call_user_func($opt);
+            return $this;
+        }
         $this->options = $opt;
         return $this;
     }

@@ -11,6 +11,9 @@ class {{NAME_FORM}} extends Form {
     private $entity = null;
     static $with = [];
 
+    // Actions available for this form
+    static $actions = ["create","update","delete","index","view"];
+
 
     public function fields() {
 

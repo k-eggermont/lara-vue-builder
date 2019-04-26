@@ -29,10 +29,11 @@ class FormHandlerRequest extends FormRequest
         ];
     }
 
-    public function getFormObject($entity) {
+    public function parseResourceInformations() {
         if (php_sapi_name() == 'cli') {
             return null;
         }
+
         $resource = $this->route('resource');
         $resource = "\App\Forms\\" . ucfirst($resource) . "Form";
         if (!class_exists($resource)) {
@@ -40,20 +41,7 @@ class FormHandlerRequest extends FormRequest
             throw new \Exception("Form doesn't exist");
         }
 
-        return new $resource($entity);
-    }
-
-    /**
-     * Return the entity with params.
-     * @return object
-     * @throws \Exception
-     */
-    public function getResourceObject() {
-        if (php_sapi_name() == 'cli') {
-            return null;
-        }
-
-        $className = "\App\Test";
+        $className = $resource::$class;;
         if(!$className) {
             abort(404, 'The property class was not set on the form.');
         }
@@ -67,6 +55,9 @@ class FormHandlerRequest extends FormRequest
             return $resource;
         }
 
-        return new $className();
+
+        $entity = new $className();
+
+        return [new $className, new $resource($entity)];
     }
 }

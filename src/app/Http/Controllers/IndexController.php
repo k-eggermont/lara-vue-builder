@@ -27,6 +27,11 @@ class IndexController extends FormController {
     }
 
     public function delete() {
+
+        if(!in_array("delete", $this->form::$actions)) {
+            return abort(403, "Not authorized, from can variable on your Form");
+        }
+
         $this->authorize('delete', $this->resource);
         if($this->resource) {
 
@@ -40,6 +45,11 @@ class IndexController extends FormController {
     }
 
     public function create(Request $request) {
+
+        if(!in_array("create", $this->form::$actions)) {
+            return abort(403, "Not authorized, from can variable on your Form");
+        }
+
         $this->authorize('create', $this->resource);
         $request->validate($this->form->validationRules());
 
@@ -54,6 +64,11 @@ class IndexController extends FormController {
     }
 
     public function store(Request $request) {
+
+        if(!in_array("update", $this->form::$actions)) {
+            return abort(403, "Not authorized, from can variable on your Form");
+        }
+
         $this->authorize('update', $this->resource);
         if(!$this->resource) {
             abort(404, "404 Not found.");

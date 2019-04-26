@@ -10,8 +10,10 @@ class FormController extends Controller {
     public $resource;
 
     public function __construct(FormHandlerRequest $request) {
-        $this->resource = $request->getResourceObject();
-        $this->form = $request->getFormObject($this->resource);
+        list($resource, $entity) = $request->parseResourceInformations();
+
+        $this->resource = $resource;
+        $this->form = $entity;
     }
 
     public function updateModel($model = null, Request $request) {
@@ -34,6 +36,7 @@ class FormController extends Controller {
     public function createModel($model = null, Request $request) {
         if(!$model) { $model = $this->resource; }
         $form = ($this->form->getFieldsData($request->all(),"creating"));
+        $unset = [];
         foreach($request->all() as $key => $val) {
             if(!isset($model->{$key})) {
                 $unset[$key] = $val;

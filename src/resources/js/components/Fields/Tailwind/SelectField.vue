@@ -1,11 +1,11 @@
 <template>
     <div class="form-group" :class="{ 'error': isError }">
-        <label :for="field.name+'_form'">
+        <label :for="field.field+'_form'">
             {{ field.name }}
         </label>
         <div class="relative">
 
-            <select :name="field.name" :id="field.name+'_form'" :value="$parent.form[field.name]" @input="updateField($event.target.value)">
+            <select :name="field.field" :id="field.field+'_form'" :value="$parent.form[field.field]" :placeholder="field.placeholder" @input="updateField($event.target.value)">
                 <option v-for="(value,key) in field.options" :value="key">{{ value }}</option>
             </select>
             <div class="pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker">
