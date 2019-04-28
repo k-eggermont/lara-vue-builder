@@ -2,6 +2,7 @@
 
 namespace Keggermont\LaraVueBuilder;
 
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Keggermont\LaraVueBuilder\App\Commands\MakeFormCommand;
 use Keggermont\LaraVueBuilder\App\Events\LaraVueFormCreating;
@@ -61,6 +62,18 @@ class LaraVueBuilderServiceProvider extends ServiceProvider
                 MakeFormCommand::class,
             ]);
         }
+
+        Validator::extend('is_base64',function($attribute, $value, $params, $validator) {
+            if(!preg_match("/base64,/iu",$value) || !preg_match("/data:/iu",$value)) { return false; }
+            try {
+                $b64 = base64_decode($value,true);
+                if(!$b64) { return false; }
+            }
+            catch(\Exception $e) {
+                return false;
+            }
+            return true;
+        });
 
     }
 }

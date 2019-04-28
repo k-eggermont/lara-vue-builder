@@ -82,6 +82,9 @@ class Field {
      */
     public function renderBeforeStore(Callable $callback) {
         $this->callbackBeforeStore = $callback;
+
+        $this->value = call_user_func($this->callbackBeforeStore,$this);
+
         return $this;
     }
 

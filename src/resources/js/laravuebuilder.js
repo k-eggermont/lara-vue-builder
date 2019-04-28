@@ -6,6 +6,8 @@ Vue.component('SelectField', require('./vendor/laravuebuilder/components/Fields/
 Vue.component('TextareaField', require('./vendor/laravuebuilder/components/Fields/Tailwind/TextareaField.vue').default);
 Vue.component('NumberField', require('./vendor/laravuebuilder/components/Fields/Tailwind/NumberField.vue').default);
 Vue.component('CheckboxField', require('./vendor/laravuebuilder/components/Fields/Tailwind/CheckboxField.vue').default);
+Vue.component('UploaderField', require('./vendor/laravuebuilder/components/Fields/Tailwind/UploaderField.vue').default);
+Vue.component('ImageUploaderField', require('./vendor/laravuebuilder/components/Fields/Tailwind/ImageUploaderField.vue').default);
 
 Vue.component('loader', require('./vendor/laravuebuilder/components/Loader.vue').default);
 Vue.component('progressButton', require('./vendor/laravuebuilder/components/ProgressButton').default);
@@ -27,6 +29,10 @@ window.VueAjaxErrorMessages = {
     500: "Internal server error, please try later.",
     403: "This action was forbidden.",
     422: "Your form was not correctly filled."
+}
+
+if(typeof Bus == "undefined") {
+    window.Bus = new Vue();
 }
 
 window.MessageEvent = require('vue');
