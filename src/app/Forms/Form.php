@@ -15,7 +15,6 @@ abstract class Form {
         if(!$this->entity) { throw new \Exception("You need to set the ENTITY on your form"); }
     }
 
-
     public function getFieldsData($post = null, $method = "index") {
         $fields = $this->fields();
         $data = [];
@@ -24,8 +23,11 @@ abstract class Form {
 
                 if(is_array($post) && isset($post[$field->field])) {
                     $field->value = $post[$field->field];
-                    if($field->callbackBeforeStore) {
-                        $field->renderCallback();
+
+                    // If we are in post, we execute the callback before store
+                    if($field->callbackBeforeStore && request()->method() == "POST") {
+                        call_user_func($field->callbackBeforeStore, $field);
+                        //$field->renderCallback();
                     }
                 } else {
                     $field->value = $this->entity->{$field->field};

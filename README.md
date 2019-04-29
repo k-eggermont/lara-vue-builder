@@ -51,10 +51,10 @@ php artisan vendor:publish --provider="Keggermont\LaraVueBuilder\LaraVueBuilderS
 
 ### NPM dependancies
 ```bash
-npm i --save form-backend-validation
+npm i --save form-backend-validation 
 
 # Not required, but if you don't install this packages, you need to reconfigure the file in resources/js/laravuebuilder.js
-npm i --save vue-m-message vue-sweetalert2
+npm i --save vue-flatpickr-component vue-m-message vue-sweetalert2
 ```
 
 I recommend to use vue-router in your project 

@@ -4,46 +4,131 @@ namespace Keggermont\LaraVueBuilder\App\Fields;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class UploaderField extends Field {
 
     public $vueComponent = "UploaderField";
     public $validationType = "array";
     public $maxFiles = 1;
-    public $maxSizePerFiles = 1024; // 1mo / 1024ko
+    public $maxSizePerFiles = 4072; // 1mo / 1024ko
+
+    private $nameRules = "random";
+    private $folderDestination = "/testing";
+    private $disk = "public";
+
+    /**
+     * Without the / of the end of path
+     * @param $dest
+     */
+    public function setFolderDestination($dest) {
+        $this->folderDestination = $dest;
+    }
+
+    public function setNameRule($rule) {
+        if(!in_array($rule, ["random","base_name"])) { throw new \Exception("The rule does not exists"); }
+
+        $this->nameRules = $rule;
+    }
+
+    public function setStorageDisk($disk) {
+        $this->disk = $disk;
+    }
 
 
     public function __construct($name,$field = null) {
         parent::__construct($name,$field);
 
-        $this->
 
         $this->renderBeforeStore(function() {
 
-            dump($this->value);
-            request()->validate([
-                $this->name.".old" => "array",
-                $this->name.".uploads" => "array",
-                $this->name.".uploads.*.base64" => "is_base64",
-                $this->name.".uploads.*.name" => "string"
-            ]);
-
-            if($this->maxSizePerFiles) {
-                request()->validate([
-                    $this->name.".old" => "array",
-                    $this->name.".uploads" => "array",
-                    $this->name.".uploads.*.base64" => "is_base64",
-                    $this->name.".uploads.*.name" => "string"
-                ]);
+            if($this->nullable) {
+                $validations = [
+                    $this->name => "uploader_max_files:".$this->maxFiles,
+                    $this->name . ".old" => "array",
+                    $this->name . ".uploaded" => "array",
+                    $this->name . ".uploaded.*.base64" => "b64|b64_size:".$this->maxSizePerFiles,
+                    $this->name . ".uploaded.*.name" => "string",
+                ];
+            } else {
+                $validations = [
+                    $this->name => "uploader_not_nullable|uploader_max_files:".$this->maxFiles,
+                    $this->name . ".old" => "array",
+                    $this->name . ".uploaded" => "array|required",
+                    $this->name . ".uploaded.*.base64" => "b64|b64_size:".$this->maxSizePerFiles,
+                    $this->name . ".uploaded.*.name" => "string",
+                ];
             }
 
-            return "string";
-            //dd($this->value);
-            //dd("ok");
+            request()->validate($validations);
+
+            $files = [];
+            foreach(request()->get($this->name)["old"] as $old) {
+                $files[] = $old;
+            }
+            foreach(request()->get($this->name)["uploaded"] as $upload) {
+                $data = substr($upload["base64"], strpos($upload["base64"], ',') + 1);
+
+                $file_ext = explode(".",$upload["name"]);
+                $file_ext = $file_ext[sizeof($file_ext)-1];
+
+                if($this->nameRules == "random") {
+                    $name = Str::random(15)."_".uniqid().".".$file_ext;
+                } else {
+                    $name = $upload["name"];
+                }
+
+                $dest = $this->folderDestination."/";
+                $to = $dest.$name;
+
+
+                \Storage::disk($this->disk)->put($to, base64_decode($data));
+                $files[] = \Storage::disk($this->disk)->url($to);
+            }
+
+
+            $this->value = null;
+            if($this->maxFiles == 1 || !$this->maxFiles) {
+                if(isset($files[0])) {
+                    $this->value = $files[0];
+                }
+            } else {
+                $this->value = $files;
+            }
+
+            return $this;
         });
         return $this;
     }
 
+    /*
+    public function renderBeforeStore(callable $callback)
+    {
+
+        if(request()->method() == "POST") {
+            dd($this);
+            $validations = [
+                $this->name . ".old" => "array",
+                $this->name . ".uploaded" => "array|required",
+                $this->name . ".uploaded.*.base64" => "b64|b64_size:10240",
+                $this->name . ".uploaded.*.name" => "string",
+            ];
+            request()->validate($validations);
+            dd($validations);
+
+            if ($this->maxSizePerFiles) {
+                request()->validate([
+                ]);
+            }
+
+            $this->value = "string";
+            return;
+            //dd($this->value);
+            //dd("ok");
+        }
+        return parent::renderBeforeStore($callback); // TODO: Change the autogenerated stub
+    }*/
 
 
 }

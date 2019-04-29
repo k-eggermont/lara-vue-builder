@@ -4,6 +4,7 @@ namespace Keggermont\LaraVueBuilder\App\Fields;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class Field {
 
@@ -83,22 +84,27 @@ class Field {
     public function renderBeforeStore(Callable $callback) {
         $this->callbackBeforeStore = $callback;
 
-        $this->value = call_user_func($this->callbackBeforeStore,$this);
+
+        if(request()->method() == "POST") {
+           // $this->value = call_user_func($this->callbackBeforeStore, $this);
+        }
 
         return $this;
     }
 
     public function renderCallback() {
         if($this->callbackBeforeStore instanceof Closure) {
-            $this->value = call_user_func($this->callbackBeforeStore,$this);
+
+            if(request()->method() == "GET") {
+                $this->value = call_user_func($this->callbackBeforeStore, $this);
+            }
         }
         return $this;
     }
 
 
-    public function nullable($val = true) {
-        if($val != true) { $this->nullable = false; }
-        else { $this->nullable = true; }
+    public function nullable(Bool $val = true) {
+        $this->nullable = $val;
         return $this;
     }
 

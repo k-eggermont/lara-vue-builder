@@ -35,6 +35,66 @@ class LaraVueBuilderServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+
+        Validator::extend('b64',function($attribute, $value, $params, $validator) {
+
+            if(!preg_match('/^data:image\/(\w+);base64,/',$value)) { return false; }
+
+            try {
+                $b64 = base64_decode($value);
+                if(!$b64) { return false;  }
+            }
+            catch(\Exception $e) {
+                return false;
+            }
+            return true;
+        });
+
+        Validator::extend('uploader_not_nullable',function($attribute, $value, $params, $validator) {
+
+            $old = 0;
+            $uploaded = 0;
+            if(isset($value["old"])){
+                $old = sizeof($value["old"]);
+            }
+            if(isset($value["uploaded"])){
+                $uploaded = sizeof($value["uploaded"]);
+            }
+            if($old+$uploaded <= 0) {
+                return false;
+            }
+            return true;
+        });
+
+        Validator::extend('uploader_max_files',function($attribute, $value, $params, $validator) {
+
+            $old = 0;
+            $uploaded = 0;
+            if(isset($value["old"])){
+                $old = sizeof($value["old"]);
+            }
+            if(isset($value["uploaded"])){
+                $uploaded = sizeof($value["uploaded"]);
+            }
+            if(($old+$uploaded) > $params[0]) {
+                return false;
+            }
+            return true;
+        });
+
+        Validator::extend('b64_size',function($attribute, $value, $params, $validator) {
+            try {
+                $size_in_bytes = (int)(strlen(rtrim($value, '=')) * 3 / 4);
+                $size_in_kb = $size_in_bytes / 1024;
+                if($size_in_kb > $params[0]) { return false; }
+                return true;
+            } catch(\Exception $e) {
+                return false;
+            }
+        });
+
+//        strlen(base64_decode($encoded_data));
         $this->publishes([
             __DIR__.'/config/laravuebuilder.php' => config_path('laravuebuilder.php'),
         ]);
@@ -63,17 +123,6 @@ class LaraVueBuilderServiceProvider extends ServiceProvider
             ]);
         }
 
-        Validator::extend('is_base64',function($attribute, $value, $params, $validator) {
-            if(!preg_match("/base64,/iu",$value) || !preg_match("/data:/iu",$value)) { return false; }
-            try {
-                $b64 = base64_decode($value,true);
-                if(!$b64) { return false; }
-            }
-            catch(\Exception $e) {
-                return false;
-            }
-            return true;
-        });
 
     }
 }

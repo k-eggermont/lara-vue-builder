@@ -52,6 +52,7 @@ class IndexController extends FormController {
 
         $this->authorize('create', $this->resource);
         $request->validate($this->form->validationRules());
+ 
 
         list($model, $fieldsNotUpdated) = $this->createModel($this->resource, $request);
 
